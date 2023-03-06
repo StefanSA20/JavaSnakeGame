@@ -43,6 +43,24 @@ public class GamePanel extends JPanel implements ActionListener
         timer = new Timer(DELAY,this);
         timer.start();
     }
+
+    public void RestartGame()
+    {;
+        bodyParts = 6;
+        for(int i = 0; i < bodyParts; i++)
+        {
+            x[i] = UNIT_SIZE * (bodyParts-(i+2));
+            y[i] = 0;
+        }
+        direction ='R';
+        timer.stop();
+        newApple();
+        running = true;
+        timer = new Timer(DELAY,this);
+        timer.start();
+        applesEaten = 0;
+
+    }
     public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
@@ -52,13 +70,13 @@ public class GamePanel extends JPanel implements ActionListener
     {
         if(running)
         {
-            /* Used for a better perspective of object and game window sizes
+            // Used for a better perspective of object and game window sizes
             for(int i = 0; i < SCREEN_HEIGHT/UNIT_SIZE; i++)
             {
                 g.drawLine(i*UNIT_SIZE, 0, i*UNIT_SIZE, SCREEN_HEIGHT);
                 g.drawLine(0, i*UNIT_SIZE, i*SCREEN_WIDTH, i*UNIT_SIZE);
             }
-            */
+
             g.setColor(Color.RED);
             g.fillOval(appleX,appleY,UNIT_SIZE,UNIT_SIZE);
 
@@ -74,8 +92,9 @@ public class GamePanel extends JPanel implements ActionListener
                 //Here are the rest of the body parts which should be different from the head
                 else
                 {
-                    g.setColor(new Color(45,180,0));
-                    g.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
+                    g.setColor(Color.BLUE);
+                    //g.setColor(new Color(45,180,0));
+                    //g.setColor(new Color(random.nextInt(255),random.nextInt(255),random.nextInt(255)));
                     g.fillRect(x[i],y[i],UNIT_SIZE,UNIT_SIZE);
 
                 }
@@ -223,6 +242,12 @@ public class GamePanel extends JPanel implements ActionListener
                     if(direction != 'U')
                     {
                         direction = 'D';
+                    }
+                    break;
+                case KeyEvent.VK_R:
+                    if(running=true)
+                    {
+                        RestartGame();
                     }
                     break;
             }
